@@ -9,7 +9,13 @@ import { RouterView } from 'vue-router'
     <Sidebar />
     <div class="rightBox">
       <HeaderBar />
-      <RouterView class="main" />
+      <div class="main">
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+      </div>
     </div>
   </div>
 </template>

@@ -1,26 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Watermark from '../views/Watermark.vue'
-import Settings from '../views/Settings.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
-    meta: { title: '首页' }
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/watermark',
     name: 'Watermark',
-    component: Watermark,
-    meta: { title: '水印工具' }
+    component: () => import('../views/Watermark.vue')
   },
   {
     path: '/settings',
     name: 'Settings',
-    component: Settings,
-    meta: { title: '设置' }
+    component: () => import('../views/Settings.vue')
   }
 ]
 
