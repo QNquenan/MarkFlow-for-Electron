@@ -11,6 +11,13 @@
     & .right {
         display: flex;
 
+        & .closeBtn.headerBtn {
+            &:hover {
+                background: #d35656;
+                color: #fff;
+            }
+        }
+
         & .headerBtn {
             width: 35px;
             height: 35px;
