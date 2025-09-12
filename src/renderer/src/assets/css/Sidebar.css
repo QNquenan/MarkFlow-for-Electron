@@ -2,4 +2,60 @@
     width: 200px;
     height: 100vh;
     background: var(--bar-background);
+    position: relative;
+
+    & .header {
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: bold;
+        app-region: drag;
+    }
+
+    & .btnList {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    & .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    & .btnItem {
+        width: 80%;
+        height: 40px;
+        margin-top: 1rem;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: .3s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & svg {
+            margin-right: .5rem;
+        }
+
+        &:hover {
+            background: #e5e5e5;
+        }
+
+        &.active {
+            background: var(--theme-color);
+            color: #fff;
+            box-shadow: 0 0 15px var(--theme-color);
+        }
+    }
 }

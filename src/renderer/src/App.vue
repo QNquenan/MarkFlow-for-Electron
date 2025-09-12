@@ -1,6 +1,7 @@
 <script setup>
-import HeaderBar from './views/HeaderBar.vue'
-import Sidebar from './views/Sidebar.vue'
+import HeaderBar from './components/HeaderBar.vue'
+import Sidebar from './components/Sidebar.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -8,7 +9,7 @@ import Sidebar from './views/Sidebar.vue'
     <Sidebar />
     <div class="rightBox">
       <HeaderBar />
-      <div class="main"></div>
+      <RouterView class="main" />
     </div>
   </div>
 </template>
