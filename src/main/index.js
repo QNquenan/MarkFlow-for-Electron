@@ -10,7 +10,7 @@ function createWindow() {
     height: 670,
     title: 'MarkFlow',
     show: false,
-    autoHideMenuBar: true,
+    frame: false,
     icon: path.join(__dirname, '../../resources/favicon.png'),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -27,6 +27,40 @@ function createWindow() {
     return { action: 'deny' }
   })
 
+  // 监听窗口控制事件
+  ipcMain.on('window-minimize', () => {
+    mainWindow.minimize()
+  })
+
+  ipcMain.on('window-maximize', () => {
+    mainWindow.maximize()
+  })
+
+  ipcMain.on('window-unmaximize', () => {
+    mainWindow.unmaximize()
+  })
+
+  ipcMain.on('window-maximize-toggle', () => {
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize()
+    } else {
+      mainWindow.maximize()
+    }
+  })
+
+  ipcMain.on('window-close', () => {
+    mainWindow.close()
+  })
+
+  // 当窗口最大化状态改变时，通知渲染进程
+  mainWindow.on('maximize', () => {
+    mainWindow.webContents.send('window-maximized')
+  })
+
+  mainWindow.on('unmaximize', () => {
+    mainWindow.webContents.send('window-unmaximized')
+  })
+
   // 基于 electron-vite cli 的渲染器 HMR
   // 开发时加载远程 URL，生产时加载本地 html 文件
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -34,6 +68,8 @@ function createWindow() {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  return mainWindow
 }
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时会调用这个方法

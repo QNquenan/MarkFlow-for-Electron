@@ -1,5 +1,9 @@
-<script setup></script>
+<script setup>
+import HeaderBar from './views/HeaderBar.vue'
+</script>
 
 <template>
-  <div></div>
+  <div>
+    <HeaderBar />
+  </div>
 </template>
