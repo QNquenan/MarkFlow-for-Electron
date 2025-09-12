@@ -3,14 +3,10 @@
     height: 50px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-bottom: 2px solid #e5e5e5;
+    justify-content: flex-end;
+    background: var(--bar-background);
     /* 允许拖动窗口 */
     app-region: drag;
-
-    & .left {
-        margin-left: 1rem;
-    }
 
     & .right {
         display: flex;
@@ -24,6 +20,8 @@
             justify-content: center;
             cursor: pointer;
             border-radius: 8px;
+            transition: .3s ease-in-out;
+            user-select: none;
             /* 不准拖动窗口 */
             app-region: no-drag;
 

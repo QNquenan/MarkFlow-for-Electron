@@ -1,8 +1,5 @@
 <template>
   <div class="headerBar">
-    <div class="left">
-      <div class="title">MarkFlow</div>
-    </div>
     <div class="right">
       <div class="toMinBtn headerBtn" title="最小化" @click="HideWindow">-</div>
       <div class="toWindowBtn headerBtn" title="窗口/最大化" @click="toggleMaxMinWindow">❐</div>
