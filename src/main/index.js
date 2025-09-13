@@ -7,7 +7,9 @@ function createWindow() {
   // 创建浏览器窗口
   const mainWindow = new BrowserWindow({
     width: 900,
+    minWidth: 800,
     height: 670,
+    minHeight: 670,
     title: 'MarkFlow',
     show: false,
     frame: false,

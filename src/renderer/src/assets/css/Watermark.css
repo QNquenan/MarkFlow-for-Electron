@@ -1,0 +1,32 @@
+.watermark {
+    & hr {
+        border: none;
+        border-bottom: 3px dashed #ccc;
+    }
+
+    & button.theme {
+        margin: 1rem 0;
+    }
+
+    & .wateBox {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 1rem 0;
+
+
+        & .wateItem {
+            padding: 1rem;
+            border: 2px solid var(--updata-border);
+            border-radius: 8px;
+            text-align: center;
+            background: #c9c9c9;
+            cursor: pointer;
+            margin: 0 1.1rem 1rem 0;
+
+            & .logo {
+                max-width: 7em;
+                max-height: 5em;
+            }
+        }
+    }
+}
