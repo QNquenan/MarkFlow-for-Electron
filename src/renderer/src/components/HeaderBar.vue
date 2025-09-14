@@ -16,18 +16,22 @@
 <script setup>
 import { ref } from 'vue'
 
+const toTheme = (theme) => {
+  document.body.setAttribute('theme', theme)
+  localStorage.setItem('theme', theme)
+}
+
 const theme = ref(localStorage.getItem('theme') || 'light')
+toTheme(theme.value)
 const isMaximized = ref(false)
 
 const toggleDark = () => {
-  if (theme.value == 'light') {
-    theme.value = 'dark'
-    document.body.setAttribute('theme', theme.value)
-    localStorage.setItem('theme', theme.value)
-  } else {
+  if (theme.value == 'dark') {
     theme.value = 'light'
-    document.body.setAttribute('theme', theme.value)
-    localStorage.setItem('theme', theme.value)
+    toTheme('light')
+  } else {
+    theme.value = 'dark'
+    toTheme('dark')
   }
 }
 

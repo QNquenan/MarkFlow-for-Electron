@@ -15,7 +15,13 @@ const api = {
   closeWindow: () => ipcRenderer.send('window-close'),
   // 监听窗口最大化事件
   onWindowMaximized: (callback) => ipcRenderer.on('window-maximized', callback),
-  onWindowUnmaximized: (callback) => ipcRenderer.on('window-unmaximized', callback)
+  onWindowUnmaximized: (callback) => ipcRenderer.on('window-unmaximized', callback),
+  // 选择目录
+  selectDirectory: () => ipcRenderer.invoke('select-directory'),
+  // 获取Downloads目录下的MarkFlow文件夹路径
+  getDownloadsPath: () => ipcRenderer.invoke('get-downloads-path'),
+  // 打开外部链接
+  openExternal: (url) => ipcRenderer.invoke('open-external', url)
 }
 
 // 仅当启用上下文隔离时，使用 `contextBridge` API

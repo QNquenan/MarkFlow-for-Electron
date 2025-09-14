@@ -6,12 +6,15 @@
       <div class="card">
         <div class="left">
           <files />
-          <span>工作目录</span>
+          <div class="text">
+            <span>工作目录</span>
+            <span class="patch">{{ workPatch }}</span>
+          </div>
         </div>
 
         <div class="right">
           <div class="inputItem">
-            <button>选择文件夹</button>
+            <button @click="selectFolder">选择文件夹</button>
           </div>
         </div>
       </div>
@@ -35,7 +38,7 @@
               value="0"
               type="radio"
               name="theme-color"
-              @change="test"
+              @change="updateThemeColor"
             />
             <label for="pink">粉色系</label>
           </div>
@@ -46,7 +49,7 @@
               value="1"
               type="radio"
               name="theme-color"
-              @change="test"
+              @change="updateThemeColor"
             />
             <label for="blue">蓝色系</label>
           </div>
@@ -62,18 +65,20 @@
 
         <div class="right">
           <div class="inputItem">
-            <button>⭐去看看</button>
+            <button @click="openGithubLink">⭐去看看</button>
           </div>
         </div>
       </div>
       <div class="card">
         <div class="left">
           <Warning />
-          <span>关于MarkFlow</span>
+          <div class="text">
+            <span>关于MarkFlow</span>
+            <span class="patch">版本：{{ ver }}</span>
+          </div>
         </div>
 
         <div class="right">
-          <p>版本：{{ ver }}</p>
           <p>By Quenan</p>
         </div>
       </div>
@@ -83,16 +88,68 @@
 
 <script setup>
 import { Files, ArrowLeftBold, Brush, Link, Warning } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const openCard = ref(false)
 const themeColor = ref('0')
 const ver = ref('1.0.0')
+const workPatch = ref('')
+
+onMounted(() => {
+  if (localStorage.getItem('workPath')) {
+    workPatch.value = localStorage.getItem('workPath')
+  } else {
+    setDefaultWorkPath()
+  }
+
+  if (localStorage.getItem('themeColor')) {
+    themeColor.value = localStorage.getItem('themeColor')
+    updateThemeColor()
+  } else {
+    themeColor.value = '0'
+  }
+})
+
+// 页面加载时设置默认工作目录
+const setDefaultWorkPath = async () => {
+  try {
+    const downloadsPath = await window.api.getDownloadsPath()
+    workPatch.value = downloadsPath
+  } catch (error) {
+    console.error('获取下载目录时出错:', error)
+    // 降级方案：使用硬编码的默认路径
+    workPatch.value = 'C:\\Users\\Administrator\\Downloads\\MarkFlow'
+  }
+}
 
 const toggleCardOpen = () => {
   openCard.value = !openCard.value
 }
-const test = () => {
-  console.log(themeColor.value)
+
+const updateThemeColor = () => {
+  const root = document.documentElement
+  if (themeColor.value === '0') {
+    root.style.setProperty('--theme-color', '#FFB3B3')
+  } else if (themeColor.value === '1') {
+    root.style.setProperty('--theme-color', '#298dff')
+  }
+  localStorage.setItem('themeColor', themeColor.value)
+}
+
+// 打开GitHub链接
+const openGithubLink = () => {
+  window.api.openExternal('https://github.com/QNquenan/MarkFlow-for-Electron')
+}
+
+const selectFolder = async () => {
+  try {
+    const result = await window.api.selectDirectory()
+    if (result) {
+      workPatch.value = result
+      localStorage.setItem('workPath', result)
+    }
+  } catch (error) {
+    console.error('选择文件夹时出错:', error)
+  }
 }
 </script>

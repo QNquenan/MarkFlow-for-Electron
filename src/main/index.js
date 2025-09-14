@@ -1,7 +1,8 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-// import icon from '../../resources/favicon.png'
+import { homedir } from 'os'
+import fs from 'fs'
 
 function createWindow() {
   // 创建浏览器窗口
@@ -52,6 +53,42 @@ function createWindow() {
 
   ipcMain.on('window-close', () => {
     mainWindow.close()
+  })
+
+  // 添加选择目录的IPC处理程序
+  ipcMain.handle('select-directory', async () => {
+    const result = await dialog.showOpenDialog(mainWindow, {
+      properties: ['openDirectory']
+    })
+
+    if (!result.canceled && result.filePaths.length > 0) {
+      return result.filePaths[0]
+    }
+    return null
+  })
+
+  // 添加获取Downloads目录路径的IPC处理程序
+  ipcMain.handle('get-downloads-path', async () => {
+    const homeDir = homedir()
+    const downloadsPath = path.join(homeDir, 'Downloads', 'MarkFlow')
+    
+    // 如果目录不存在，则创建它
+    if (!fs.existsSync(downloadsPath)) {
+      fs.mkdirSync(downloadsPath, { recursive: true })
+    }
+    
+    return downloadsPath
+  })
+
+  // 添加打开外部链接的IPC处理程序
+  ipcMain.handle('open-external', async (event, url) => {
+    try {
+      await shell.openExternal(url)
+      return true
+    } catch (error) {
+      console.error('打开外部链接时出错:', error)
+      return false
+    }
   })
 
   // 当窗口最大化状态改变时，通知渲染进程

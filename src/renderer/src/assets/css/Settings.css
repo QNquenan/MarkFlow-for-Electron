@@ -81,6 +81,12 @@
             display: flex;
             align-items: center;
 
+            & .patch {
+                font-size: .7rem;
+                opacity: .5;
+                display: block;
+            }
+
             & svg {
                 margin-right: .5rem;
             }

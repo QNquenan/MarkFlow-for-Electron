@@ -43,6 +43,7 @@ body {
   user-select: none;
   overflow: hidden;
   color: var(--font-color);
+  transition: all .3s ease-in-out;
 }
 
 svg {
