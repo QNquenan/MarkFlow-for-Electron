@@ -1,7 +1,18 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import HeaderBar from './components/HeaderBar.vue'
 import Sidebar from './components/Sidebar.vue'
-import { RouterView } from 'vue-router'
+import NotificationCenter from './components/NotificationCenter.vue'
+import { initNotificationCenter } from './services/notificationService.js'
+
+const notificationCenter = ref(null)
+
+onMounted(() => {
+  // 初始化通知中心
+  if (notificationCenter.value) {
+    initNotificationCenter(notificationCenter.value)
+  }
+})
 </script>
 
 <template>
@@ -17,5 +28,30 @@ import { RouterView } from 'vue-router'
         </router-view>
       </div>
     </div>
+    <NotificationCenter ref="notificationCenter" />
   </div>
 </template>
+
+<style>
+.layout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.rightBox {
+  width: calc(100% - 200px);
+  position: relative;
+}
+
+.main {
+  width: 100%;
+  height: calc(100% - 50px);
+  border-top: var(--bar-border);
+  border-left: var(--bar-border);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 8px 0 0 0;
+}
+</style>

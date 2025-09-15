@@ -1,4 +1,17 @@
 .watermark {
+    .tools {
+        display: flex;
+        align-items: center;
+
+        .switchBox {
+            display: flex;
+
+            .switch {
+                margin: 0 .5rem 0 1rem;
+            }
+        }
+    }
+
     & hr {
         border: none;
         border-bottom: 3px dashed #ccc;
@@ -22,11 +35,44 @@
             background: #c9c9c9;
             cursor: pointer;
             margin: 0 1.1rem 1rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+
+
+            transition: .3s ease-in-out;
 
             & .logo {
                 max-width: 7em;
                 max-height: 5em;
             }
+
+            &.active {
+                border-color: var(--theme-color);
+            }
         }
     }
+}
+
+.context-menu {
+    position: fixed;
+    background-color: var(--card-bg);
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-width: 120px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.context-menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.context-menu-item:hover {
+    background-color: var(--button-hover-bg);
 }

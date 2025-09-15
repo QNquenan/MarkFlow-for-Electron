@@ -20,6 +20,16 @@ const api = {
   selectDirectory: () => ipcRenderer.invoke('select-directory'),
   // 获取Downloads目录下的MarkFlow文件夹路径
   getDownloadsPath: () => ipcRenderer.invoke('get-downloads-path'),
+  // 选择图片文件
+  selectImageFiles: () => ipcRenderer.invoke('select-image-files'),
+  // 读取本地图片文件并转换为DataURL
+  readImageAsDataURL: (filePath) => ipcRenderer.invoke('read-image-as-data-url', filePath),
+  // 获取文件大小
+  getFileSize: (filePath) => ipcRenderer.invoke('get-file-size', filePath),
+  // 处理拖拽文件
+  getDraggedFiles: (files) => ipcRenderer.invoke('get-dragged-files', files),
+  // 添加水印并导出图片
+  addWatermarkAndExport: (options) => ipcRenderer.invoke('add-watermark-and-export', options),
   // 打开外部链接
   openExternal: (url) => ipcRenderer.invoke('open-external', url)
 }
