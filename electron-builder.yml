@@ -12,6 +12,8 @@ asarUnpack:
   - resources/**
 win:
   executableName: markflow-for-electron
+  icon: build/favicon.png
+
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -24,9 +26,11 @@ mac:
     - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
     - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+  icon: build/favicon.png
   notarize: false
 dmg:
   artifactName: ${name}-${version}.${ext}
+  icon: build/favicon.png
 linux:
   target:
     - AppImage
@@ -34,6 +38,7 @@ linux:
     - deb
   maintainer: electronjs.org
   category: Utility
+  icon: build/icon.png
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false

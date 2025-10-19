@@ -234,67 +234,79 @@ function createWindow() {
         // 检查是否需要根据背景明暗调整水印颜色
         if (isFanse) {
           // 获取水印区域的图像数据
-          const imageData = ctx.getImageData(posX, posY, Math.min(watermarkWidth, image.width - posX), Math.min(watermarkHeight, image.height - posY));
-          const data = imageData.data;
-          
+          const imageData = ctx.getImageData(
+            posX,
+            posY,
+            Math.min(watermarkWidth, image.width - posX),
+            Math.min(watermarkHeight, image.height - posY)
+          )
+          const data = imageData.data
+
           // 计算平均亮度
-          let totalBrightness = 0;
-          let count = 0;
-          
+          let totalBrightness = 0
+          let count = 0
+
           // 采样计算亮度，提高性能
-          for (let i = 0; i < data.length; i += 4 * 10) { // 每10个像素取一个样本
-            const r = data[i];
-            const g = data[i + 1];
-            const b = data[i + 2];
-            const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
-            totalBrightness += brightness;
-            count++;
+          for (let i = 0; i < data.length; i += 4 * 10) {
+            // 每10个像素取一个样本
+            const r = data[i]
+            const g = data[i + 1]
+            const b = data[i + 2]
+            const brightness = 0.299 * r + 0.587 * g + 0.114 * b
+            totalBrightness += brightness
+            count++
           }
-          
-          const averageBrightness = count > 0 ? totalBrightness / count : 0;
-          
+
+          const averageBrightness = count > 0 ? totalBrightness / count : 0
+
           // 如果背景较暗，使用白色水印；如果背景较亮，使用黑色水印
           if (averageBrightness < 128) {
             // 背景较暗，使用白色水印
-            ctx.fillStyle = 'white';
+            ctx.fillStyle = 'white'
           } else {
             // 背景较亮，使用黑色水印
-            ctx.fillStyle = 'black';
+            ctx.fillStyle = 'black'
           }
-          
+
           // 创建新的水印canvas
-          const watermarkCanvas = createCanvas(watermarkWidth, watermarkHeight);
-          const watermarkCtx = watermarkCanvas.getContext('2d');
-          
+          const watermarkCanvas = createCanvas(watermarkWidth, watermarkHeight)
+          const watermarkCtx = watermarkCanvas.getContext('2d')
+
           // 在新的canvas上绘制水印并应用颜色
-          watermarkCtx.drawImage(watermark, 0, 0, watermarkWidth, watermarkHeight);
-          const watermarkImageData = watermarkCtx.getImageData(0, 0, watermarkWidth, watermarkHeight);
-          const watermarkDataArray = watermarkImageData.data;
-          
+          watermarkCtx.drawImage(watermark, 0, 0, watermarkWidth, watermarkHeight)
+          const watermarkImageData = watermarkCtx.getImageData(
+            0,
+            0,
+            watermarkWidth,
+            watermarkHeight
+          )
+          const watermarkDataArray = watermarkImageData.data
+
           // 修改水印颜色
           for (let i = 0; i < watermarkDataArray.length; i += 4) {
             // 只改变颜色，保持透明度
-            if (watermarkDataArray[i + 3] > 0) { // 如果不是完全透明
-              watermarkDataArray[i] = parseInt(ctx.fillStyle.slice(1), 16) >> 16; // R
-              watermarkDataArray[i + 1] = (parseInt(ctx.fillStyle.slice(1), 16) >> 8) & 0xff; // G
-              watermarkDataArray[i + 2] = parseInt(ctx.fillStyle.slice(1), 16) & 0xff; // B
+            if (watermarkDataArray[i + 3] > 0) {
+              // 如果不是完全透明
+              watermarkDataArray[i] = parseInt(ctx.fillStyle.slice(1), 16) >> 16 // R
+              watermarkDataArray[i + 1] = (parseInt(ctx.fillStyle.slice(1), 16) >> 8) & 0xff // G
+              watermarkDataArray[i + 2] = parseInt(ctx.fillStyle.slice(1), 16) & 0xff // B
             }
           }
-          
+
           // 将修改后的水印放回canvas
-          watermarkCtx.putImageData(watermarkImageData, 0, 0);
-          
+          watermarkCtx.putImageData(watermarkImageData, 0, 0)
+
           // 设置透明度（默认为不透明）
-          ctx.globalAlpha = opacity / 100 || 1.0;
-          
+          ctx.globalAlpha = opacity / 100 || 1.0
+
           // 绘制修改后的水印
-          ctx.drawImage(watermarkCanvas, posX, posY);
+          ctx.drawImage(watermarkCanvas, posX, posY)
         } else {
           // 设置透明度（默认为不透明）
-          ctx.globalAlpha = opacity / 100 || 1.0;
+          ctx.globalAlpha = opacity / 100 || 1.0
 
           // 绘制水印
-          ctx.drawImage(watermark, posX, posY, watermarkWidth, watermarkHeight);
+          ctx.drawImage(watermark, posX, posY, watermarkWidth, watermarkHeight)
         }
       }
 
@@ -383,7 +395,7 @@ function createWindow() {
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'), { hash: '/' })
   }
 
   return mainWindow

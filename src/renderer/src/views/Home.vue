@@ -339,7 +339,7 @@ const processImageFiles = async (filePaths) => {
   if (filePaths && filePaths.length > 0) {
     showSuccess('正在导入', `正在处理 ${filePaths.length} 张图片...这可能需要一些时间`, 5000)
 
-    // 使用防抖机制处理文件路径
+    // 使用防抖机制处理文件路径npm run build:win
     let index = 0
     const total = filePaths.length
     let importedCount = 0
