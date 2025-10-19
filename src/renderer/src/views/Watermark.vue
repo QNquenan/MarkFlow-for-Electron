@@ -211,7 +211,6 @@ const openContextMenu = (event, index) => {
   contextMenuIndex.value = index
   contextMenuPosition.value = { x: event.clientX, y: event.clientY }
   showContextMenu.value = true
-  selectWatermark(index)
 }
 
 const hideContextMenu = () => {
