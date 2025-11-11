@@ -91,7 +91,7 @@ function createWindow() {
   ipcMain.handle('select-image-files', async () => {
     const result = await dialog.showOpenDialog(mainWindow, {
       properties: ['openFile', 'multiSelections'],
-      filters: [{ name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'] }]
+      filters: [{ name: 'Images', extensions: ['jpg', 'jpeg', 'png'] }]
     })
 
     if (!result.canceled && result.filePaths.length > 0) {
@@ -112,9 +112,6 @@ function createWindow() {
       // 确定MIME类型
       let mimeType = 'image/png'
       if (ext === 'jpg' || ext === 'jpeg') mimeType = 'image/jpeg'
-      else if (ext === 'gif') mimeType = 'image/gif'
-      else if (ext === 'bmp') mimeType = 'image/bmp'
-      else if (ext === 'webp') mimeType = 'image/webp'
 
       // 转换为DataURL
       const base64String = fileBuffer.toString('base64')
@@ -178,11 +175,12 @@ function createWindow() {
         image = await loadImage(imageData)
       }
 
-      // 创建画布
+      // 创建画布（根据图片尺寸决定方向，不考虑EXIF中的Orientation）
+      // 如果高度大于宽度，则保持竖直方向；否则使用原始尺寸
       const canvas = createCanvas(image.width, image.height)
       const ctx = canvas.getContext('2d')
 
-      // 绘制原图
+      // 直接绘制原图，不进行任何旋转或翻转
       ctx.drawImage(image, 0, 0)
 
       // 如果有水印，则绘制水印
@@ -356,7 +354,12 @@ function createWindow() {
             const exifObj = piexif.load(originalImageBuffer.toString('binary'))
 
             if (exifObj) {
-              // 直接在原始buffer上操作，避免再次压缩
+              // 删除Orientation信息，因为我们直接根据尺寸决定方向
+              if (exifObj['0th'] && exifObj['0th'][piexif.ImageIFD.Orientation]) {
+                delete exifObj['0th'][piexif.ImageIFD.Orientation]
+              }
+              
+              // 保留其他EXIF信息
               const newJpegWithExif = piexif.insert(piexif.dump(exifObj), buffer.toString('binary'))
               buffer = Buffer.from(newJpegWithExif, 'binary')
             }
