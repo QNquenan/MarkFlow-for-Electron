@@ -189,10 +189,17 @@ function createWindow() {
       if (watermarkData) {
         const watermark = await loadImage(watermarkData)
 
-        // 计算水印尺寸（根据scale参数调整）
+        // 计算水印尺寸（根据scale参数和图片大小调整）
+        // 水印尺寸 = 水印原始尺寸 * 水印占百分比 * watermarkScale
         const watermarkScale = scale / 100
-        const watermarkWidth = watermark.width * watermarkScale
-        const watermarkHeight = watermark.height * watermarkScale
+        const imageDiagonal = Math.sqrt(image.width * image.width + image.height * image.height)
+        const watermarkDiagonal = Math.sqrt(
+          watermark.width * watermark.width + watermark.height * watermark.height
+        )
+        const watermarkWidth =
+          (watermark.width * (imageDiagonal * watermarkScale)) / watermarkDiagonal
+        const watermarkHeight =
+          (watermark.height * (imageDiagonal * watermarkScale)) / watermarkDiagonal
 
         // 计算水印位置
         let posX, posY
