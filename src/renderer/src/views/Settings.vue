@@ -32,25 +32,13 @@
         </div>
         <div class="cardMain" :class="{ open: openCard }">
           <div class="inputItem">
-            <input
-              id="pink"
-              v-model="themeColor"
-              value="0"
-              type="radio"
-              name="theme-color"
-              @change="updateThemeColor"
-            />
+            <input id="pink" v-model="themeColor" value="0" type="radio" name="theme-color"
+              @change="updateThemeColor" />
             <label for="pink">粉色系</label>
           </div>
           <div class="inputItem">
-            <input
-              id="blue"
-              v-model="themeColor"
-              value="1"
-              type="radio"
-              name="theme-color"
-              @change="updateThemeColor"
-            />
+            <input id="blue" v-model="themeColor" value="1" type="radio" name="theme-color"
+              @change="updateThemeColor" />
             <label for="blue">蓝色系</label>
           </div>
         </div>
@@ -92,7 +80,7 @@ import { ref, onMounted } from 'vue'
 
 const openCard = ref(false)
 const themeColor = ref('0')
-const ver = ref('1.0.0')
+const ver = ref('1.1.0.20251111')
 const workPatch = ref('')
 
 onMounted(() => {
