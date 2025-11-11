@@ -15,7 +15,7 @@
 <p align="center">
   <a href="https://github.com/QNquenan/MarkFlow-for-Electron/releases"><img src="https://img.shields.io/github/v/release/QNquenan/MarkFlow-for-Electron?style=flat-square" alt="GitHub release"></a>
   <a href="https://github.com/QNquenan/MarkFlow-for-Electron/stargazers"><img src="https://img.shields.io/github/stars/QNquenan/MarkFlow-for-Electron?style=flat-square" alt="GitHub stars"></a>
-  <a href="https://github.com/QNquenan/MarkFlow-for-Electron/blob/main/LICENSE"><img src="https://img.shields.io/github/license/QNquenan/MarkFlow-for-Electron?style=flat-square" alt="GitHub"></a>
+  <a href="https://github.com/QNquenan/MarkFlow-for-Electron/LICENSE"><img src="https://img.shields.io/github/license/QNquenan/MarkFlow-for-Electron?style=flat-square" alt="GitHub"></a>
 </p>
 
 ## 简介
