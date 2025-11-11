@@ -199,51 +199,55 @@ function createWindow() {
         const watermarkHeight =
           (watermark.height * (imageDiagonal * watermarkScale)) / watermarkDiagonal
 
-        // 计算水印位置
+        // 计算水印位置（以水印中心点计算）
         let posX, posY
         switch (position) {
           case 'top-left':
-            posX = 10
-            posY = 10
+            posX = 10 + watermarkWidth / 2
+            posY = 10 + watermarkHeight / 2
             break
           case 'top-right':
-            posX = image.width - watermarkWidth - 10
-            posY = 10
+            posX = image.width - 10 - watermarkWidth / 2
+            posY = 10 + watermarkHeight / 2
             break
           case 'bottom-left':
-            posX = 10
-            posY = image.height - watermarkHeight - 10
+            posX = 10 + watermarkWidth / 2
+            posY = image.height - 10 - watermarkHeight / 2
             break
           case 'bottom-right':
-            posX = image.width - watermarkWidth - 10
-            posY = image.height - watermarkHeight - 10
+            posX = image.width - 10 - watermarkWidth / 2
+            posY = image.height - 10 - watermarkHeight / 2
             break
           case 'center':
-            posX = (image.width - watermarkWidth) / 2
-            posY = (image.height - watermarkHeight) / 2
+            posX = image.width / 2
+            posY = image.height / 2
             break
           case 'custom':
-            // 使用自定义位置
-            posX = (image.width * x) / 100 - watermarkWidth / 2
-            posY = (image.height * y) / 100 - watermarkHeight / 2
+            // 使用自定义位置（以中心点计算）
+            posX = (image.width * x) / 100
+            posY = (image.height * y) / 100
             break
           default:
-            posX = image.width - watermarkWidth - 10
-            posY = image.height - watermarkHeight - 10
+            posX = image.width - 10 - watermarkWidth / 2
+            posY = image.height - 10 - watermarkHeight / 2
         }
 
-        // 确保水印不会超出图片边界
-        posX = Math.max(0, Math.min(posX, image.width - watermarkWidth))
-        posY = Math.max(0, Math.min(posY, image.height - watermarkHeight))
+        // 调整位置以确保水印不会超出图片边界（基于中心点）
+        posX = Math.max(watermarkWidth / 2, Math.min(posX, image.width - watermarkWidth / 2))
+        posY = Math.max(watermarkHeight / 2, Math.min(posY, image.height - watermarkHeight / 2))
+        
+        // 计算水印绘制的实际坐标（左上角）
+        const drawX = posX - watermarkWidth / 2
+        const drawY = posY - watermarkHeight / 2
 
         // 检查是否需要根据背景明暗调整水印颜色
         if (isFanse) {
           // 获取水印区域的图像数据
           const imageData = ctx.getImageData(
-            posX,
-            posY,
-            Math.min(watermarkWidth, image.width - posX),
-            Math.min(watermarkHeight, image.height - posY)
+            drawX,
+            drawY,
+            Math.min(watermarkWidth, image.width - drawX),
+            Math.min(watermarkHeight, image.height - drawY)
           )
           const data = imageData.data
 
@@ -304,14 +308,14 @@ function createWindow() {
           // 设置透明度（默认为不透明）
           ctx.globalAlpha = opacity / 100 || 1.0
 
-          // 绘制修改后的水印
-          ctx.drawImage(watermarkCanvas, posX, posY)
+          // 绘制修改后的水印（使用中心点位置）
+          ctx.drawImage(watermarkCanvas, drawX, drawY)
         } else {
           // 设置透明度（默认为不透明）
           ctx.globalAlpha = opacity / 100 || 1.0
 
-          // 绘制水印
-          ctx.drawImage(watermark, posX, posY, watermarkWidth, watermarkHeight)
+          // 绘制水印（使用中心点位置）
+          ctx.drawImage(watermark, drawX, drawY, watermarkWidth, watermarkHeight)
         }
       }
 
