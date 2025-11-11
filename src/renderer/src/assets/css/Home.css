@@ -72,6 +72,16 @@
             & .imgInfo {
                 font-size: .8rem;
                 margin-top: .5rem;
+                width: 100%;
+                overflow: hidden;
+                text-align: center;
+
+                & .imgName {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    width: 100%;
+                }
 
                 & .imgSize {
                     font-size: .7rem;
@@ -81,6 +91,10 @@
                     padding: .1rem .5rem;
                     border-radius: 8px;
                     color: #fff;
+                    max-width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
             }
         }
