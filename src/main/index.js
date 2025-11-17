@@ -215,7 +215,7 @@ function createWindow() {
         // 调整位置确保水印不会超出边界
         posX = Math.max(watermarkWidth / 2, Math.min(posX, image.width - watermarkWidth / 2))
         posY = Math.max(watermarkHeight / 2, Math.min(posY, image.height - watermarkHeight / 2))
-        
+
         const drawX = posX - watermarkWidth / 2
         const drawY = posY - watermarkHeight / 2
 
@@ -316,7 +316,7 @@ function createWindow() {
               if (exifObj['0th'] && exifObj['0th'][piexif.ImageIFD.Orientation]) {
                 delete exifObj['0th'][piexif.ImageIFD.Orientation]
               }
-              
+
               const newJpegWithExif = piexif.insert(piexif.dump(exifObj), buffer.toString('binary'))
               buffer = Buffer.from(newJpegWithExif, 'binary')
             }

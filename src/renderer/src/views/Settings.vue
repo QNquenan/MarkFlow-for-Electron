@@ -62,7 +62,7 @@
           <Warning />
           <div class="text">
             <span>关于MarkFlow</span>
-            <span class="patch">版本：{{ ver }}</span>
+            <span class="patch">版本：{{ packagedata.version }}</span>
           </div>
         </div>
 
@@ -77,10 +77,11 @@
 <script setup>
 import { Files, ArrowLeftBold, Brush, Link, Warning } from '@element-plus/icons-vue'
 import { ref, onMounted } from 'vue'
+import packagefile from '../../../../package.json'
 
 const openCard = ref(false)
 const themeColor = ref('0')
-const ver = ref('1.1.0.20251111')
+const packagedata = ref(packagefile)
 const workPatch = ref('')
 
 onMounted(() => {
