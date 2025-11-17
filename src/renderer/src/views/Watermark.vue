@@ -25,7 +25,7 @@
         class="wateItem"
         :class="{ active: activeIndex === index }"
         @click="selectWatermark(index)"
-        @dblclick="openRenameDialog"
+        @dblclick="openRenameDialog(index)"
         @contextmenu.prevent="openContextMenu($event, index)"
       >
         <div class="logo">
@@ -92,7 +92,7 @@ const cancelRename = () => {
 const confirmRename = () => {
   // 这里添加重命名逻辑
   if (newName.value.trim() !== '') {
-    watermarks.value[activeIndex.value].name = newName.value.trim()
+    watermarks.value[contextMenuIndex.value].name = newName.value.trim()
     saveWatermarks()
     showSuccess('操作成功', '水印名称修改成功', 3000)
   }
@@ -101,8 +101,9 @@ const confirmRename = () => {
 }
 
 // 添加打开重命名对话框的方法
-const openRenameDialog = () => {
-  newName.value = watermarks.value[activeIndex.value]?.name || ''
+const openRenameDialog = (index) => {
+  contextMenuIndex.value = index
+  newName.value = watermarks.value[index]?.name || ''
   isReName.value = true
 }
 
@@ -226,7 +227,7 @@ const handleClickOutside = (event) => {
 
 const handleRename = () => {
   hideContextMenu()
-  openRenameDialog()
+  openRenameDialog(contextMenuIndex.value)
 }
 
 const handleDelete = () => {
